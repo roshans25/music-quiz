@@ -1,0 +1,11 @@
+Songs,Artists
+Maroon 5 Girls Like You,Andrea Garcia
+I Like It,Cardi B
+God's Plan,Drake
+No Tears Left To Cry,Ariana Grande
+Psycho,Post Malone
+The Middle,Maren Morris
+Better Now,Post Malone
+In My Feelings,Drake
+It's Coming Home,The Lightning Seeds
+One Kiss,Dua Lipa
