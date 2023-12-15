@@ -1,0 +1,126 @@
+import random #importing needed libraries
+import time
+import sys
+        
+#MUSIC QUIZ PROGRAM
+print("***IMPORANT MESSAGES***") #time.sleep is used throughout the program to make sure the print isnt all at once and overwhelming to read
+time.sleep(1.5)                  #it allows to user to read along as the lines appear
+print("the password is: musicquiz")
+time.sleep(1.5)
+print("do not use the name 'John' or you will be unable to access the game")
+time.sleep(1.5)
+
+#Authentication
+username = input("Please enter your chosen username: ")
+password = input("Please also enter the password: ")
+if username == "John" or password != "musicquiz":
+    print("\nSorry the username is taken or the password is incorrect - or both") #makes sure the user is authorised before they can play
+    quit()
+else:
+    print("\nHello," + " " + username + ". Welcome to the game!\n")
+    print(" ___|)________________________________________________________")
+    print("|___/____________________________|___________________________||")  #welcome message and cool designs at the beginning 
+    print("|__/|_______/|____/|_____/|______|___________________________||")
+    print("|_/(|,\____/_|___/_|____/_|______|___________________________||")
+    print("|_\_|_/___|__|__|__|___|__|___|__|___________________________||")
+    print("|   |     | ()  | ()   | ()   |  |                           ||")
+    print("| (_|   -()-  -()-   -()-   -()- | -()-  -()-  -()-   -()-   ||")
+    print("|________________________________|__|__()_|__()_|__()__|_____||")
+    print("|__/___\_._______________________|__|__|__|__|__|__|___|_____||")
+    print("|__\___|_._______________________|___\_|___\_|___\_|___|_____||")
+    print("|_____/__________________________|____\|____\|____\|_________||")
+    print("|____/___________________________|___________________________||\n")
+    print("\n ________  _________  ________  ________  _________ ") 
+    print("|\   ____\|\___   ___\\   __  \|\   __  \|\___   ___\ ")
+    print("\ \  \___|\|___ \  \_\ \  \|\  \ \  \|\  \|___ \  \_|")
+    print(" \ \_____  \   \ \  \ \ \   __  \ \   _  _\   \ \  \ ")
+    print("  \|____|\  \   \ \  \ \ \  \ \  \ \  \\  \|   \ \  \ ")
+    print("    ____\_\  \   \ \__\ \ \__\ \__\ \__\\ _\    \ \__\ ")
+    print("   |\_________\   \|__|  \|__|\|__|\|__|\|__|    \|__|")
+    print("    \|_________|\n                                       ")
+
+#The game
+def musicquiz():
+    score = 0    #setting the score and attempts counter
+    attempts = 2
+    while attempts != 0: #until the user attempts run out random songs will be selected and displayed to the user to guess
+        List = []
+        with open("Playlist_songs.txt", "r") as file: #opens a file to read containing all the songs and moves it into a list
+            List = file.readlines()
+            RandomSong = random.choice(List) #randomly chooses song from list
+            split = RandomSong.split(", ") #splits the song into the song name and artist by a comma
+            song = split[0] 
+            y = song.split()
+            print("--------------------------------------------------------")
+            print("\nHere is the first letter of each word in the song title:\n")
+            for x in y: #y could just be song.split() but a variable makes it neater
+                print(x[0:1]) #uses substrings to print first letter of each word in the song only
+            time.sleep(1.5)
+            print("\n...and the name of the artist:\n")
+            time.sleep(1.5)
+            print(split[1]) #prints the full artist name
+            time.sleep(1.5)
+            print("You need to guess the name of the song.")
+            time.sleep(1.5)
+            guess = str(input("\nSo, what is the correct name of this song? ")) #allows user to guess
+            if song.upper() == guess.upper():
+                print("\nWell done, that was the correct answer. You get 3 points!")
+                time.sleep(1.5)
+                print("You move on to the next song!\n")
+                time.sleep(1.5)
+                score = score + 3 #adds 3 to score is correct
+            else:
+                print("\nSorry, your guess was incorrect.")
+                time.sleep(1.5)
+                print("\nYou have one more chance to guess the name right.")
+                time.sleep(1.5)
+                attempts = attempts - 1
+                guess = input("\nWhat is the correct name of this song? ") #given user second chance
+                if guess.upper() == song.upper():
+                    print("\nWell done, you got it correct on your second try.")
+                    time.sleep(1.5)
+                    print("This means you got 1 point.") #adds  1 to score if correct
+                    score = score + 1
+                else:
+                    print("\nSorry, you got it wrong AGAIN. The song name was " + RandomSong + "Game over.")
+                    time.sleep(1.5)
+                    score = str(score)
+                    print("Your final score was: " + score + " points.\n") #tells the user the game is over and their final score if wrong again
+                    time.sleep(1.5)
+                    attempts = attempts - 1 #attempts = 0 so while loop ends
+
+    #Display leaderboard
+    def leaderboard(): 
+        print("-------------Leaderboard---------------")
+        file = open('leaderboard.txt', 'r') #opens external file and reads the lines
+        readthefile = file.readlines()
+        sortedData = sorted(readthefile,reverse=True) #sorts the lines by descending score (reverse=True)
+        print("\n   Top 5 scores!\n")
+        print("Pos\tPoints, Name") #shows position of each name and score
+        for line in range(5): #prints top 5 scores
+            print(str(line+1)+"\t"+str(sortedData[line]))
+        file.close()
+    
+    score = int(score)  
+    if score < 10:
+        score = str(score)
+        score = score.zfill(2)#ALLOWS DOUBLE DIGIT NUMBERS TO BE COMPARED
+    else:
+        pass
+    file = open ("leaderboard.txt", "a") 
+    file.write(str(score)+", "+username+"\n") #opens and writes name of the user and score to an external file
+    file.close()
+    leaderboard() #calls on function of leaderboard
+
+musicquiz()
+
+#End
+replay = input("If you would like to play again press a. Otherwise, press anything else.")#
+if replay == "a" or "A":
+    musicquiz()
+else: quit()
+
+
+#end = input("Enter any button to quit once you've finished viewing the leaderboard: ")#allows user to view leaderboard until they want to quit the game
+#if end != "": #checks if the variable 'end' contains anything in it
+#    quit()
